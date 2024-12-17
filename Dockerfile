@@ -7,5 +7,6 @@ RUN mvn -f /home/app/pom.xml clean test package
 # Package stage
 FROM eclipse-temurin:17-jre-jammy
 COPY --from=build /home/app/target/*.jar app.jar
+COPY system.properties /app/system.properties
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-Dspring.config.location=classpath:/,file:/app/system.properties","-jar","app.jar"]
